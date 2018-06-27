@@ -19,7 +19,6 @@ import javax.imageio.ImageIO;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.entity.Entities;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.settings.GameSettings;
@@ -42,6 +41,9 @@ public class DataCollector extends GameApplication {
 	}
 
 	private int speed = 60;
+	private int deviceWidth;
+	private int deviceHeight;
+	
 	private boolean stopped = true;
 	private Entity spot;
 	private Entity arrow;
@@ -62,8 +64,10 @@ public class DataCollector extends GameApplication {
 	@Override
 	protected void initSettings(GameSettings settings) {
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		settings.setWidth(device.getDisplayMode().getWidth());
-		settings.setHeight(device.getDisplayMode().getHeight());
+		deviceWidth = device.getDisplayMode().getWidth();
+		deviceHeight = device.getDisplayMode().getHeight();
+		settings.setWidth(deviceWidth);
+		settings.setHeight(deviceHeight);
 		settings.setTitle("Data collector");
 		settings.setVersion("0.1");
 		settings.setFullScreenAllowed(true);
@@ -164,8 +168,9 @@ public class DataCollector extends GameApplication {
 
 	private void saveScreenshot(int webcamIndex, BufferedImage image, int x, int y) {
 		try {
+			
 			Path file = saveFolder.resolve(String.valueOf(System.currentTimeMillis() - sessionTime) + "_" + webcamIndex
-					+ "_" + x + "_" + y + ".png");
+					+ "_" + x + "_" + y + "_"  + String.valueOf(deviceWidth) + "_" + String.valueOf(deviceHeight) + ".png");
 			ImageIO.write(image, "PNG", file.toFile());
 		} catch (IOException e) {
 			e.printStackTrace();
