@@ -115,7 +115,7 @@ public class DataCollector extends GameApplication {
 				getMasterTimer().runAtInterval(this::sreenshot, Duration.millis(screenshotInterval));
 		screenshotTimer.pause();
 
-		saveFolder = filesystem.getPath("screenshots", String.valueOf(sessionTime));
+		saveFolder = filesystem.getPath("..").resolve("screenshots").resolve(String.valueOf(sessionTime));
 		if (!Files.exists(saveFolder)) {
 			try {
 				Files.createDirectories(saveFolder);
@@ -167,13 +167,14 @@ public class DataCollector extends GameApplication {
 	}
 
 	private void saveScreenshot(int webcamIndex, BufferedImage image, int x, int y) {
-		try {
-			
-			Path file = saveFolder.resolve(String.valueOf(System.currentTimeMillis() - sessionTime) + "_" + webcamIndex
-					+ "_" + x + "_" + y + "_"  + String.valueOf(deviceWidth) + "_" + String.valueOf(deviceHeight) + ".png");
-			ImageIO.write(image, "PNG", file.toFile());
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (!stopped) {
+			try {
+				Path file = saveFolder.resolve(String.valueOf(System.currentTimeMillis() - sessionTime) + "_" + webcamIndex
+						+ "_" + x + "_" + y + "_"  + String.valueOf(deviceWidth) + "_" + String.valueOf(deviceHeight) + ".png");
+				ImageIO.write(image, "PNG", file.toFile());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
