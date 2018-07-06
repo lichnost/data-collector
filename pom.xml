@@ -25,6 +25,13 @@
 			<artifactId>webcam-capture</artifactId>
 			<version>0.3.10</version>
 		</dependency>
+		<dependency>
+			<groupId>jhdf5</groupId>
+			<artifactId>jhdf5</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/sis-jhdf5-batteries_included.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
